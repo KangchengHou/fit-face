@@ -1,0 +1,22 @@
+\section{Mesh Deformation}
+To enable easy facial animation, we tried out different methods of mesh deformation. We have tried the following methods:
+\begin{itemize}
+\item Face IK
+\item Laplacian Mesh Editing
+\item ARAP Mesh Deformation
+\end{itemize}
+The setting of our application is as follows, we specify some constraint pairs on the face mesh. Then we want to find a new mesh that satisfies the constraint while \textbf{looks similar} to the original mesh. Vertices on the original mesh is $\hat{\mathbf{x}}$ and the unknown vertices position of the deformed mesh is $\mathbf{x}$. And we can write the deformation field as $\hat{\mathbf{x}} - \mathbf{x} =: d$. We can think of the deformation process in two complementary way:
+\begin{itemize}
+\item Think about $d = \hat{\mathbf{x}} - \mathbf{x}$. Scattered data interpolation problem, where the constraint points specify constraints on the field $d$. Say $d_1 = u_1, \cdots, d_n = u_n$.
+\item Think about the unknown vertices $\mathbf{x}$. The reconstructed mesh should satisfies the constraint while preserving some kind of details.
+\end{itemize}
+
+\subsection{Face IK}
+
+
+\subsection{Biharmonic mesh deformation}
+
+
+\subsection{ARAP deformation}
+
+

@@ -1,0 +1,14 @@
+\begin{algorithm}[H]
+\KwIn{facial landmarks $L^{(1), \dots, (K)}$ and the shape PCA model}
+\KwOut{shape $M$ that best fits the landmarks and the corresponding camera parameters $s,R,t$}
+Set $\mathbf{w} = 0$\;
+\Repeat{$\mathbf{w}$ converges}{
+    Set $\hat{M} = \bar{M} + \mathbf{V} \times \mathbf{w}$\;
+    Find the camera parameters $s, R, t$ from $\hat{M}$ and $L^{(1), \dots, (K)}$ by using the least squares method\;
+    Project all vertices of $\hat{M}$ onto the image plane: $\hat{M}' = \Pi_{R,s,t}(\hat{M})$\;
+    Find the convex hull of $\hat{M}'$ as $H(\hat{M}')$\;
+    For contour landmarks $L_i$, find correspondence using $H(\hat{M}')$\;
+    Solve $\mathbf{w}$ using the energy function defined above.
+}   
+\caption{Fit the model to a single image}
+\end{algorithm}

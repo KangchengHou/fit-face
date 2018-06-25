@@ -1,0 +1,11 @@
+**/figs/*
+**/img/*
+*.aux
+*.log
+*.toc
+*.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.out
+*.snm

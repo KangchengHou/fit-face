@@ -1,0 +1,56 @@
+\documentclass{article}
+% \documentclass[UTF8]{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{todonotes}
+\usepackage{subfigure}
+\usepackage{caption}
+\usepackage[ruled]{algorithm2e}
+\title{Face Image Fitting\footnote{This is the first time we try to write the course project report in English. Your understanding is much appreciated.}}
+\author{Kangcheng Hou\footnote{kangchenghou@gmail.com} \and Shuqi Wang\footnote{wangshuqi.cn@gmail.com} \and Tianhao Wei \footnote{phi.wth@gmail.com}}
+\date{\today}
+ 
+
+\newcommand{\pic}[2] {
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=.6\textwidth]{./img/#1}
+    \caption{#2}
+    \end{figure}
+}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+A large proportion of images people uploaded is facial images. Motivated by this, in this course project, we want to develop a software that ease the process of editing facial image. The core part of our course project is face fitting, i.e. given a image, find the corresponding 3D model of the image. We also build two applications based upon the face fitting module.
+
+The first one is to substitute the mouth in one image to another. The second one is to provide accessible way to edit face.
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{./img/app11}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{./img/app12}
+    \end{subfigure}
+\end{figure}
+\subsection{Structure of the report}
+In the following parts of the report, we will first introduce different basic components related to facial animation we have implemented. Then we will talk about different interesting facial animation application using some of basic components we have implemented. At the end of the report, we will discuss further possible improments of our project.
+
+\input{fit_model.tex}
+\input{mesh_deformation.tex}
+
+
+\end{document}
