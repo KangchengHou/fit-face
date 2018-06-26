@@ -95,6 +95,7 @@ $$\hat{\mathbf{f}} = s (\mathbf{R} \mathbf{f} + \mathbf{t})$$
 Given an image and 2D face landmarks $\{l_1, \dots, l_{N_{\text{lm}}}\}$ from a off-the-shelf tracker\footnote{https://www.faceplusplus.com.cn/}. Solve the following optimization problem:
 $$\min_{\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}, s, \mathbf{R}, \mathbf{t}} \sum_{i=1}^{N_{\text{lm}}}||l_i - h_i||_2^2$$
 where $\{h_1, \dots, h_{N_{\text{lm}}}\}$ is the corresponding points on 3d model.
+
 % 但是没有closed form solution存在，不能弄一把least form solution 就可以了。使用coordinate descent.
 
 \end{frame}

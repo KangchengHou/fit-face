@@ -1,48 +1,44 @@
 
-\section{Model fitting}
-\subsection{Introduction}
-Given a photo, we want to find a facial model fitted to the image. The typical method previously used is to first find the 2d feature points of the face and fit the 3d model to the image.
+\section{Fitting a face model}
+Given a photo, we want to find a facial model fitted to the image. The overall procedure is to find the 2D feature points of the image, and use these 2D feature points as the proxy of the original image to fit a 3D face model.
 
-\begin{figure}[H]
-\minipage{0.33\textwidth}
-\includegraphics[width=\linewidth]{./img/img}
-\endminipage\hfill
-\minipage{0.33\textwidth}
-\includegraphics[width=\linewidth]{./img/img_lm}
-\endminipage\hfill
-\minipage{0.33\textwidth}
-\includegraphics[width=\linewidth]{./img/img_model}
-\endminipage
-\caption{The image, feature points and the fitted model}
-\end{figure}
-We first use state-of-the-art commercial software provided by face++\footnote{https://www.faceplusplus.com.cn/} to track the feature points $L^{(1), \cdots, (K)}$ which can be seen from the figure. Note that we include the points on the contour. As we will see later, feature points on the contour will be very helpful for fitting the model. Then we will fit a 3D model based on these points.
+\subsection{Bilinear face model}
+First we introduce how to generate a 3D face model. A face model can be thought to be combined using two attributes, i.e. identity and expression. Bilinear face model \cite{vlasic2005face} assumes any face model is generated from these two attributes. 
+$$\mathbf{f} = \mathcal{M} \times \mathbf{w}_{\text{id}}^\top \times \mathbf{w}_{\text{expr}}^\top$$
+To implement this, we find the Basel Face Model \cite{gerig2017morphable}. What this face model database provides to us is slightly different from the original bilinear face model. 
+\begin{align*}
+\mathbf{f} = \bar{\mathbf{f}} + \mathcal{M}_{\text{id}} \times \mathbf{w}_{\text{id}}^\top + \mathcal{M}_{\text{expr}}\times \mathbf{w}_{\text{expr}}^\top \\
+\mathbf{w}_{\text{id}} \sim \mathcal{N}(0, \text{diag}(\sigma_{\text{id}}^{(1)}, \dots, \sigma_{\text{id}}^{(N_\text{id})}) \\ 
+\mathbf{w}_{\text{expr}} \sim \mathcal{N}(0, \text{diag}(\sigma_{\text{expr}}^{(1)}, \dots, \sigma_{\text{expr}}^{(N_\text{expr})})
+\end{align*}
+It can be regarded as Taylor expansion approximation of the blinear model. Though slightly different, the empirical result looks good so we didn't bother to spend time to find some database that use the original bilinear face model.
+So a face model is decided by two parameters, the identity vector $\mathbf{w}_{\text{id}}$ and the expression vector $\mathbf{w}_{\text{expr}}$. To project the face model to the 2D plane, under the assumption of weak perspective camera model, with scale $s$, rotation $\mathbf{R}$ and translation $\mathbf{t}$, we have 
+$$\hat{\mathbf{f}} = s (\mathbf{R} \mathbf{f} + \mathbf{t})$$
+Now we know the generating process of a 3D face model:
+$$\hat{\mathbf{f}} = s (\mathbf{R} (\bar{\mathbf{f}} + \mathcal{M}_{\text{id}} \times \mathbf{w}_{\text{id}}^\top + \mathcal{M}_{\text{expr}}\times \mathbf{w}_{\text{expr}}^\top) + \mathbf{t})$$
+To fit 3D face model, we first use state-of-the-art commercial software provided by face++\footnote{https://www.faceplusplus.com.cn/} to track the feature points $\{l_1, \dots, l_{N_{\text{lm}}}\}$. Then we solve the following optimization problem:
+$$\min_{\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}, s, \mathbf{R}, \mathbf{t}} \sum_{i=1}^{N_{\text{lm}}}||l_i - h_i||_2^2$$
+where $\{h_1, \dots, h_{N_{\text{lm}}}\}$ is the corresponding points on 3d model.
+This is a hard optimization problem which can't be solved by singly derive the derivative of the objective function and set the derivative to zero. However, it turns out we can solve this hard optimization problem by coordinate descent by alternating the optimizaion of $\color{red}{s, \mathbf{R}, \mathbf{t}}$ and $\color{blue}{\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}}$.
+$$\min_{\color{blue}{\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}}, \color{red}{s, \mathbf{R}, \mathbf{t}}} \sum_{i=1}^{N_{\text{lm}}}||l_i - \color{red}{s}\color{black}(\color{red}\mathbf{R}\color{black}(\mathcal{M} \times [\color{blue}{\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}} \color{black}]^\top)_i + \color{red}{\mathbf{t}} \color{black})||_2^2$$
+It turns out we can calculate the derivative w.r.t $s, \mathbf{R}, \mathbf{t}$ or $\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}$ and set them to $0$. Thus we have the following algorithm.
 
-\subsection{Parametric Face Model}
-Parametric face model use a low dimensional vector to represent different face model in the database. Previously methods use PCA or tensor decomposition to represent face model using low dimensional vectors. We use the Basel Face Model available online\footnote{https://faces.cs.unibas.ch/bfm/}. The basel face model provides us the mean face model $\overline{M}$, the identity principle components $\mathbf{V}_{\text{id}}$, the corresponding identity variations $\sigma^{\text{id}}$, the expression principle componets $\mathbf{V}^{\text{expr}}$, the corresponding expression variations $\sigma^{\text{expr}}$. The generating morphable model we use is 
-$$M = \overline{M} + \mathbf{V}^{\text{id}} \times \mathbf{w}^{\text{id}} + \mathbf{V}^{\text{expr}} \times \mathbf{w}^{\text{expr}} \quad [\mathbf{w}^{\text{id}},\mathbf{w}^{\text{expr}}] \sim \mathcal{N}(0,\text{diag}([\Sigma^{\text{id}}, \Sigma^{\text{expr}}]))$$
-Given the generating process of the 3D model, to fit the model to the 2D landmarks, we define the energy function to be optimized as follows.
-$$E_{\text{fit}}(\textbf{w}) = \sum_i ||L_i - s\cdot(R \cdot M_{c(i)} + t)||_2^2 + \lambda \frac{1}{2}\mathbf{w}^\top \Sigma \mathbf{w}$$
-\todo{add "for convenience, we will denote $\mathbf{w}$ as the concatenation of $\mathbf{w}^{\text{id}}$ and $\mathbf{w}^{\text{expr}}$}
-where $s, R, t$ is camera parameters which we will introduce later, the parameter $\lambda$ balances the fitness to the data and the prior constraint and $c(i)$ find the corresponding index in the model w.r.t the ith landmark. 
 
-\subsection{The General Procedure}
-There is no closed form solution to the energy function mentioned above. We adopt the coordinate descent method to optimize this energy function. Coordinate descent works in similar way of Gibbs Sampling, i.e., iteratively fixing other variables except one and optimize the energy function w.r.t that variable. Our algorithm can be summerized as follows:
-
-\input{fit_model_algo.tex}
-
-Knowing this general procedure, we now introduce what algorithm we use for seperate procedure.
-
-\subsection{The Camera Model}
-Before introducing the method of finding the camera parameter $s,R,t$. We first introduce the camera model we use. Like many previous work, we use the weak perspective camera model.\todo{Figure out this later} In weak perspective camera model, the transformation between 2D points and 3D points is specified by three parameters: scale $s$, rotation $R$, translation $s$. The transformation is specified as follows:
-$$l = \Pi_{s,\mathbf{R},t}(m) = s \mathbf{R} m + t$$
-This is based on the assumption that the object is far enough and no camera distortion is involved which is reasonable for modern camera setting and most applications.
-\subsection{Finding the camera parameters}
-Given the vertices on the 3D model $M_1, \dots, M_N$ and the corresponding landmarks $L_1, \dots, L_N$, we want to find the camera parameters $s, R, t$ that minimizes the fitting error.
-$$ s, R, t = \argmin_{s,R,t} \sum_{i=1}^N|| L_i - \Pi_{s,R,t}(M_i)||_2^2$$
-\todo{SVD decomposition} 
-
-\subsection{Solve the $\mathbf{w}$}
-Given the corrspondence, the camera parameters $s, R, t$, we can formulate the problem of solving $\mathbf{w}$ as a least square problem and solve it easily.
+\begin{algorithm}[H]
+\KwIn{facial landmarks $\{l_1, \dots, l_{N_{\text{lm}}}\}$ and PCA model}
+\KwOut{shape coefficients $\mathbf{w}$ and camera parameters $s,\mathbf{R},\mathbf{t}$}
+Set $\mathbf{w} = \mathbf{0}$\;
+\Repeat{$\mathbf{w}$ converges}{
+    Set $\mathbf{f} = \bar{\mathbf{f}} + \mathcal{M} \times \mathbf{w}^\top$\;
+    Find the camera parameters $s, \mathbf{R}, \mathbf{t}$ using $\mathbf{f}$ and $\{l_1, \dots, l_{N_{\text{lm}}}\}$\;
+    Project all vertices of $\mathbf{f}$ onto the image plane: $\hat{\mathbf{f}} = s (\mathbf{R} \mathbf{f} + \mathbf{t})$\;
+    Find the convex hull of $\hat{\mathbf{f}}$ as $\text{hull}(\hat{\mathbf{f}})$\;
+    For contour landmarks $l_i$, find the correspondence\;
+    Solve $\mathbf{w}$\;
+}   
+\caption{Fit face model to a single image}
+\end{algorithm}
+Finding the optimal $\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}$ with $s, \mathbf{R}, \mathbf{t}$ fixed is a simple regularized least square problem. Finding the optimal $s, \mathbf{R}, \mathbf{t}$ with $\mathbf{w}_{\text{id}}, \mathbf{w}_{\text{expr}}$ fixed is a classical problem in computational photography and can be solved by POSIT algorithm\cite{dementhon1995model}.
 
 
 \section{Joint fitting of the model}
