@@ -1,0 +1,43 @@
+\section{Face Image Editing}
+Do some introduction of face image editing.
+
+\subsection{Lapalacian Mesh Editing}
+Laplacian operator measures the flatness of the mesh:
+$$\Delta f(\mathbf{x}) = \lim_{|B(\mathbf{x})| \rightarrow 0} \frac{1}{|B(\mathbf{x}))|} \int_{B(\mathbf{x})} f(\mathbf{z}) \;d\mathbf{z} - f(\mathbf{x})$$
+Where $B(\mathbf{x})$ is an infinitesimal region around $\mathbf{x}$.
+We want to the difference of mesh before and after deformation be small.  
+\begin{align*}
+\int_\Omega ||\Delta(\mathbf{x} - \hat{\mathbf{x}})||^2 \; d\mathbf{A} & \approx \text{tr}( \mathbf{D}^\top \mathbf{L}^\top \mathbf{M}^{-\top} \mathbf{M} \mathbf{M}^{-1} \mathbf{L}\mathbf{D})\\
+&= \text{tr}(  \mathbf{D}^\top \underbrace{\mathbf{L}^\top \mathbf{M}^{-1} \mathbf{L}}_{\Q} \mathbf{D})
+\end{align*}
+where $\mathbf{D}, \mathbf{L}, \mathbf{M}$ is the difference of mesh, laplacian and the mass matrix respectively. 
+$$
+\min_{\D_\text{u}}
+\tr \left((\D_\text{u}^\top \ \D_\text{h}^\top)
+\left(\begin{array}{cc}
+\Q_\text{u,u} & \Q_\text{u,h} \\
+\Q_\text{h,u} & \Q_\text{h,h} 
+\end{array}\right)
+\left(\begin{array}{c}
+  \D_\text{u} \\
+  \D_\text{h}
+\end{array}
+\right)\right)
+$$
+$$
+\min_{\D_\text{u}}
+\tr\left(\D_\text{u}^\top \Q_\text{u,u} \D_\text{u} +
+2 \D_\text{u}^\top \Q_\text{u,h} \D_\text{h} + 
+\underbrace{\D_\text{h}^\top \Q_\text{h,h}
+\D_\text{h}}_\text{constant}\right)
+$$
+$$
+\min_{\D_\text{u}} 
+\tr\left(
+\D_\text{u}^\top \Q_\text{u,u} \D_\text{u} +
+2 \D_\text{u}^\top \Q_\text{u,h} \D_\text{h})
+\right)
+$$
+Set the gradient to zero
+$$2 \Q_\text{u,u} \D_\text{u} + 2 \Q_\text{u,h} \D_\text{h} = 0 \rightarrow \D_\text{u} = \Q_\text{u,u}^{-1} \Q_\text{u,h} \D_\text{h}$$
+Minimization w.r.t to the unconstrained points gives us the solution.
