@@ -31,7 +31,7 @@ figure; histogram(data_cost);
 data_cost = (data_cost - min(data_cost)) / (max(data_cost) - min(data_cost));
 viz_data_cost(data_cost, site_map, exp_root);
 % output to gco
-gco_input_root = 'C:\Users\david\Desktop\fit-face\src\seamless_composite\graph_cut\data';
+gco_input_root = '.\graph_cut\data';
 
 write_mat(fullfile(gco_input_root, 'grad1.txt'), grad1_mat);
 write_mat(fullfile(gco_input_root, 'grad2.txt'), grad2_mat);
@@ -39,7 +39,7 @@ write_mat(fullfile(gco_input_root, 'data_cost.txt'), data_cost);
 write_mat(fullfile(gco_input_root, 'edges.txt'), edges);
 
 % run gco
-gco_exe_path = 'C:\Users\david\Desktop\fit-face\src\seamless_composite\graph_cut\x64\Release\graph_cut.exe';
+gco_exe_path = 'C:\Users\david\Desktop\swapface\graph_cut\x64\Release\graph_cut.exe';
 system(gco_exe_path);
 
 % get the output of gco

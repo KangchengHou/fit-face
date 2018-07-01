@@ -57,10 +57,8 @@ rep_optimal_mask = repmat(optimal_mask, 1, 1, 3);
 naive_img = expression_img2;
 naive_img(rep_optimal_mask) = align_img1(rep_optimal_mask);
 figure; imshow(naive_img);
-imwrite(naive_img, fullfile(exp_root, 'naive_img.png'));
 
 %% now perform poisson image blending
 addpath('../poisson_blend/');
 blend_img = PIE(expression_img2, align_img1, optimal_mask);
 figure; imshow(blend_img);
-imwrite(blend_img, fullfile(exp_root, 'blend_img.png'));
