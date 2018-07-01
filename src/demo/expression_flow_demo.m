@@ -49,8 +49,7 @@ subtightplot(1, 2, 1); imshow(align_img1); title('align img1');
 subtightplot(1, 2, 2); imshow(expression_img2); title('expression img2');
 
 %%
-% Given two images
-% TODO: modify the optimal mask
+% find the optimal seam
 optimal_mask = seamless_composite(align_img1, expression_img2, align_lm2, exp_root);
 %%
 rep_optimal_mask = repmat(optimal_mask, 1, 1, 3);

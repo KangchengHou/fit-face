@@ -4,7 +4,12 @@ addpath('../fitmodel');
 addpath('../utils');
 addpath('../arap');
 addpath('../seamless_composite/');
+addpath('../toolbox/export_fig');
 data_root = '../data/';
 load('../metadata/basel_face_db.mat');
-%% demo2: fit two model and perform face replacement
+%% demo1: 
+
+%% demo2:
+
+%% demo3:
 
