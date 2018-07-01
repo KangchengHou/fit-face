@@ -1,0 +1,15 @@
+.vs/*
+x64/*
+graph_cut/gco/*
+graph_cut/x64/*
+graph_cut/block.h
+graph_cut/example.h
+graph_cut/example.cpp
+graph_cut/GCoptimization.cpp
+graph_cut/GCoptimization.h
+graph_cut/graph.cpp
+graph_cut/graph.h
+graph_cut/LinkedBlockList.cpp
+graph_cut/LinkedBlockList.h
+graph_cut/maxflow.cpp
+graph_cut/energy.h

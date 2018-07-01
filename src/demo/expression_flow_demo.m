@@ -52,7 +52,6 @@ subtightplot(1, 2, 2); imshow(expression_img2); title('expression img2');
 % Given two images
 % TODO: modify the optimal mask
 optimal_mask = seamless_composite(align_img1, expression_img2, align_lm2, exp_root);
-imwrite(optimal_mask, fullfile(exp_root, 'optimal_mask.png'));
 %%
 rep_optimal_mask = repmat(optimal_mask, 1, 1, 3);
 naive_img = expression_img2;
