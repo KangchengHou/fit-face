@@ -1,7 +1,15 @@
-\section{Face Image Editing}
-Do some introduction of face image editing.
+\section{Application 2: Face image editing using a 3D face model}
+Intelligent manipulation of human facial images, such as expression editing is a hot topic in computer graphics. Here we introduce a system where inputting an image of a human face, the users can manipulate by moving the handle defined on the face mesh.
 
-\subsection{Lapalacian Mesh Editing}
+\subsection{Pipeline}
+The pipeline is as follows:
+\begin{enumerate}
+\item Fit a face model to the image.
+\item Manipulate the face model using laplacian mesh editing techniques.
+\item Warp the original image according to the deformation field induced by the deformation of the underlying face model using the as-rigid-as-possible techniques.
+\end{enumerate}
+
+\subsection{Laplacian Mesh Editing}
 Laplacian operator measures the flatness of the mesh:
 $$\Delta f(\mathbf{x}) = \lim_{|B(\mathbf{x})| \rightarrow 0} \frac{1}{|B(\mathbf{x}))|} \int_{B(\mathbf{x})} f(\mathbf{z}) \;d\mathbf{z} - f(\mathbf{x})$$
 Where $B(\mathbf{x})$ is an infinitesimal region around $\mathbf{x}$.
@@ -41,3 +49,12 @@ $$
 Set the gradient to zero
 $$2 \Q_\text{u,u} \D_\text{u} + 2 \Q_\text{u,h} \D_\text{h} = 0 \rightarrow \D_\text{u} = \Q_\text{u,u}^{-1} \Q_\text{u,h} \D_\text{h}$$
 Minimization w.r.t to the unconstrained points gives us the solution.
+
+\subsection{As-rigid-as-possible image manipulation}
+We can perform the laplacian mesh editing to get the deformed 3D model. Now we want to manipulate the image which corresponds to the model deformation. To achieve this, we first construct a mesh on the image and project the vertices of the 3D model to guide the deformation of the image using the as-rigid-as-possible shape manipulation techniques\cite{igarashi2005rigid}.
+
+\subsection{Results}
+Here we show three results using the techniques described above. Please see the accompaning demo video to see the process in detail.
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{./img/laplacian.pdf}
+\end{figure}

@@ -14,6 +14,8 @@ To implement this, we find the Basel Face Model \cite{gerig2017morphable}. What 
 It can be regarded as Taylor expansion approximation of the blinear model. Though slightly different, the empirical result looks good so we didn't bother to spend time to find some database that use the original bilinear face model.
 So a face model is decided by two parameters, the identity vector $\mathbf{w}_{\text{id}}$ and the expression vector $\mathbf{w}_{\text{expr}}$. To project the face model to the 2D plane, under the assumption of weak perspective camera model, with scale $s$, rotation $\mathbf{R}$ and translation $\mathbf{t}$, we have 
 $$\hat{\mathbf{f}} = s (\mathbf{R} \mathbf{f} + \mathbf{t})$$
+
+\subsection{Coordinate Descent}
 Now we know the generating process of a 3D face model:
 $$\hat{\mathbf{f}} = s (\mathbf{R} (\bar{\mathbf{f}} + \mathcal{M}_{\text{id}} \times \mathbf{w}_{\text{id}}^\top + \mathcal{M}_{\text{expr}}\times \mathbf{w}_{\text{expr}}^\top) + \mathbf{t})$$
 To fit 3D face model, we first use state-of-the-art commercial software provided by face++\footnote{https://www.faceplusplus.com.cn/} to track the feature points $\{l_1, \dots, l_{N_{\text{lm}}}\}$. Then we solve the following optimization problem:
