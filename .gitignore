@@ -9,3 +9,5 @@
 *.nav
 *.out
 *.snm
+docs/slides/slides.pdf
+src/geometry-processing-deformation

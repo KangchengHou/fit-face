@@ -12,7 +12,7 @@ Step 5: Sometimes there will be visible artifact on the border, we do one step o
 \end{figure}
 
 \subsection{Joint fitting of the model}
-In some scenerios where we want to fit models for the same person that appeared in multiple images at the same time. We will need to fit the same identity weights $\mathbf{w}^{\text{id}}$ and fit the expression weights $\mathbf{w}^{\text{expr}}$ for different images. We adapt the previous algorithm as follows.
+In some scenerios where we want to fit models for the same person that appeared in multiple images at the same time. We will need to fit the same identity weights $\mathbf{w}^{\text{id}}$ and fit the expression weights $\mathbf{w}^{\text{expr}}_1, \dots, \mathbf{w}^{\text{expr}}_N$ for different images $I_1, \dots, I_N$. With slight adjustment of the previous single image fitting algorithm, we can get the joint fitting algorithm.
 
 \subsection{Finding the best seam}
 We can formulate this into a graph cut problem. In a graph cut framework. We first specify the data cost 
