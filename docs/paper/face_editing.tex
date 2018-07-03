@@ -10,6 +10,7 @@ The pipeline is as follows:
 \end{enumerate}
 
 \subsection{Laplacian Mesh Editing}
+To enable easy manipulation of the face mesh, we use the techniques called laplacian mesh editing.
 Laplacian operator measures the flatness of the mesh:
 $$\Delta f(\mathbf{x}) = \lim_{|B(\mathbf{x})| \rightarrow 0} \frac{1}{|B(\mathbf{x}))|} \int_{B(\mathbf{x})} f(\mathbf{z}) \;d\mathbf{z} - f(\mathbf{x})$$
 Where $B(\mathbf{x})$ is an infinitesimal region around $\mathbf{x}$.
@@ -54,7 +55,8 @@ Minimization w.r.t to the unconstrained points gives us the solution.
 We can perform the laplacian mesh editing to get the deformed 3D model. Now we want to manipulate the image which corresponds to the model deformation. To achieve this, we first construct a mesh on the image and project the vertices of the 3D model to guide the deformation of the image using the as-rigid-as-possible shape manipulation techniques\cite{igarashi2005rigid}.
 
 \subsection{Results}
-Here we show three results using the techniques described above. Please see the accompaning demo video to see the process in detail.
+Here we show three results using the techniques described above.
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{./img/laplacian.pdf}
 \end{figure}
+These three results shows that the system can perform 3D aware face image manipulation without artifact.

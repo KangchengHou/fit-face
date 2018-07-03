@@ -14,8 +14,8 @@ Step 5: Sometimes there will be visible artifact on the border, we do one step o
 \subsection{Joint fitting of the model}
 In some scenerios where we want to fit models for the same person that appeared in multiple images at the same time. We will need to fit the same identity weights $\mathbf{w}^{\text{id}}$ and fit the expression weights $\mathbf{w}^{\text{expr}}_1, \dots, \mathbf{w}^{\text{expr}}_N$ for different images $I_1, \dots, I_N$. With slight adjustment of the previous single image fitting algorithm, we can get the joint fitting algorithm.
 
-\subsection{Finding the best seam}
-We can formulate this into a graph cut problem. In a graph cut framework. We first specify the data cost 
+\subsection{Finding the best seam to composite}
+We can formulate this into a graph cut problem described in \cite{agarwala2004interactive}. In a graph cut framework, we first specify the data cost 
 $$C(p) = \alpha \exp(-\frac{D_s(p)}{\sigma_d}) + (1 - \alpha) \left(1 - \exp(-\frac{||\nabla S(p)||}{\sigma_s})\right)$$
 where $D_s(p)$ is the spatial distance from $p$ to the nearest pixel selected by the user, $||\nabla S(p)||$ is the gradient magnitude at $p$, and $\sigma_d$, $\sigma_s$ and $\alpha$ are parameters controlling the shape and weight of each term. $L(p)$ is the label of $p$. The data penalty in the graph cuts formulation is then defined as $C_d(p, L(p)) = 1 - C(p)$ is $L(p) = 1$(inside the crop region), and $C_d(p, L(p)) = C(p)$ if $L(p) = 0$(outside the crop region). 
 

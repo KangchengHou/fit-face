@@ -3,7 +3,7 @@
 Given a photo, we want to find a facial model fitted to the image. The overall procedure is to find the 2D feature points of the image, and use these 2D feature points as the proxy of the original image to fit a 3D face model.
 
 \subsection{Bilinear face model}
-First we introduce how to generate a 3D face model. A face model can be thought to be combined using two attributes, i.e. identity and expression. Bilinear face model \cite{vlasic2005face} assumes any face model is generated from these two attributes. 
+First we introduce how to generate a 3D face model. A face model can be thought to be combined using two attributes, identity and expression. Bilinear face model \cite{vlasic2005face} assumes any face model is generated from these two attributes. 
 $$\mathbf{f} = \mathcal{M} \times \mathbf{w}_{\text{id}}^\top \times \mathbf{w}_{\text{expr}}^\top$$
 To implement this, we find the Basel Face Model \cite{gerig2017morphable}. What this face model database provides to us is slightly different from the original bilinear face model. 
 \begin{align*}
