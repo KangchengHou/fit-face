@@ -1,0 +1,20 @@
+function [imgs, lm2ds] = get_video_info(root, frames, postfix)
+frame_num = length(frames);
+imgs = cell(frame_num, 1);
+lm2ds = cell(frame_num, 1);
+% quite magic number, modified later
+valid_2d_index = setdiff(1 : 79, [1 : 8, 17 : 24]);
+for i = 1 : frame_num
+   imgs{i} = imread(fullfile(root, [frames(i), '.', postfix]));
+   lm2d = read_lm2d(fullfile(root, [frames(i), '.js
+    
+end
+img1 = imread(fullfile(root, 'img1.png'));
+img2 = imread(fullfile(root, 'img2.png'));
+
+lm2d1 = read_lm2d(fullfile(root, 'lm1.json'));
+lm2d1 = lm2d1(valid_2d_index, :)';
+lm2d2 = read_lm2d(fullfile(root, 'lm2.json'));
+lm2d2 = lm2d2(valid_2d_index, :)';
+
+end

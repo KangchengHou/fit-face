@@ -3,7 +3,6 @@ function [id_coef, exp_coef] = ...
 % formulate it as a least square problem
 
 data_mean = basel.id_mean + basel.exp_mean;
-% TODO: what is the multiply by 3 here is ?
 data_val = [basel.id_val, basel.exp_val];
 data_vec = cat(3, basel.id_vec, basel.exp_vec);
 

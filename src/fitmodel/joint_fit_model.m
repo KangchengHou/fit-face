@@ -44,7 +44,7 @@ for i = 1 : iter_num
     end
     % get correspondence 
     [id_coef, exp_coefs] = ...
-        joint_estimate_shape_coef(basel_face, lm3d_all_indexes, cameras, lm2ds, 250);
+        joint_estimate_shape_coef(basel_face, lm3d_all_indexes, cameras, lm2ds, 5);
 end
 end
 

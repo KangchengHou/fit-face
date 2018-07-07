@@ -1,0 +1,18 @@
+% fit 3d model sequence to a video using joint model fitting
+%% read the data
+exp_root = fullfile(data_root, 'obama-video');
+frame_indexes = [13, 49, 68]; % the three images needed to be fit
+[imgs, lm2ds] = get_video_info(exp_root, frame_indexes, 'jpg');
+
+%% visualize input data
+
+for i = 1
+figure; imshow(img1); hold on;
+scatter(lm2d1(1, :), lm2d1(2, :), 10, 'filled', 'g');
+
+    
+end
+figure; imshow(img1); hold on;
+scatter(lm2d1(1, :), lm2d1(2, :), 10, 'filled', 'g');
+figure; imshow(img2); hold on;
+scatter(lm2d2(1, :), lm2d2(2, :), 10, 'filled', 'g');

@@ -1,8 +1,8 @@
 % fit a model to the image and display the textured image
 %% read the data
 data_root = 'C:\Users\david\Desktop\fit-face\src\data';
-exp_root = fullfile(data_root, 'olsen1');
-[img, lm2d] = get_img_info(fullfile(exp_root), 'jpg');
+exp_root = fullfile(data_root, 'test1');
+[img, lm2d] = get_img_info(fullfile(exp_root), 'png');
 figure; imshow(img); hold on;
 scatter(lm2d(1, :), lm2d(2, :), 10, 'filled', 'g');
 %%

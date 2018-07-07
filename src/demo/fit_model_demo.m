@@ -1,5 +1,5 @@
 %% load an image and display the landmark
-[img, lm2d] = get_img_info(fullfile(data_root, 'obama2'));
+[img, lm2d] = get_img_info(fullfile(data_root, 'obama2'), 'png');
 figure; imshow(img); hold on;
 scatter(lm2d(1, :), lm2d(2, :), 10, 'filled', 'g');
 %% demo 1: fit a model and display the model
