@@ -1,5 +1,5 @@
 function lm = read_lm2d(path)
-metadata_root = 'C:\Users\david\Desktop\swapface\metadata\';
+metadata_root = '..\metadata\';
 fid = fopen(path);
 raw = fread(fid,inf);
 fclose(fid);
